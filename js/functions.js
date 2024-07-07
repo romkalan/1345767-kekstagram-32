@@ -51,15 +51,8 @@ const meetingStartTime = '12:15';
 const meetingDuration = '120';
 
 function splitTime(time) {
-  let accTime = 0;
-  time.split(':').forEach((value, index) => {
-    let newValue = Number(value);
-    if (index === 0) {
-      newValue *= 60;
-    }
-    accTime += newValue;
-  });
-  return accTime;
+  const [hours, minutes] = time.split(':');
+  return Number(hours) * 60 + Number(minutes);
 }
 
 const checkTimeMeeting = (dayStart, dayEnd, meetingStart, meetingDurationTime) => {
