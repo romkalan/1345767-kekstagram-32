@@ -25,7 +25,7 @@ isPolindrom('Otto');
 // console.log(isPolindrom('aL la'));
 
 // Вытащить только цифры из строки
-function getNumberfrom(string) {
+function getNumberFrom(string) {
   string = string.replaceAll(' ', '');
   let number = '';
   for (let i = 0; i < string.length; i++) {
@@ -38,9 +38,9 @@ function getNumberfrom(string) {
   return number;
 }
 
-getNumberfrom('2024 year');
+getNumberFrom('2024 year');
 
-// console.log(getNumberfrom('990000342 выраиывро 1111'));
+// console.log(getNumberFrom('990000342 выраиывро 1111'));
 
 
 // Функции для работы со временем
