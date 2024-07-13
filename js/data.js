@@ -33,6 +33,7 @@ const messages = [
 
 const uniqValuesTo999999 = [];
 const uniqValuesTo25 = [];
+const picturesCount = 25;
 
 const createComment = () => {
   const id = checkUniqValues(0, 999999, uniqValuesTo999999);
@@ -59,6 +60,6 @@ const createPhotoDesription = () => {
   };
 };
 
-const createPhotoDescriptions = () => Array.from({length: 25}, createPhotoDesription);
+const createPhotoDescriptions = () => Array.from({length: picturesCount}, createPhotoDesription);
 
 export {createPhotoDescriptions};
