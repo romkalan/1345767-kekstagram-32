@@ -53,13 +53,13 @@ const createPhotoDesription = () => {
 
   return {
     id,
-    url: `photo/${getRandomInteger(1, 25)}.jpg`,
+    url: `photos/${getRandomInteger(1, 25)}.jpg`,
     description: getRandomArrayElement(descriptions),
     likes: getRandomInteger(15, 200),
     comments: createCommentsArray(),
   };
 };
 
-const createPhotoDescriptions = () => Array.from({length: picturesCount}, createPhotoDesription);
+const getPictures = () => Array.from({length: picturesCount}, createPhotoDesription);
 
-export {createPhotoDescriptions};
+export {getPictures};
