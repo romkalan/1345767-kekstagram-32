@@ -1,4 +1,11 @@
 import {getPictures} from './data.js';
 import {renderPictures} from './renderPictures.js';
+import {openFullScreen} from './renderFullScreenPicture.js';
 
-renderPictures(getPictures());
+const pictures = getPictures();
+
+renderPictures(pictures);
+
+const pictureList = document.querySelectorAll('.picture');
+
+openFullScreen(pictureList, pictures);
