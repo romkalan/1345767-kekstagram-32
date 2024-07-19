@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <script src="vendor/pristine/pristine.min.js" defer></script>
   <script src="js/main.js" type="module" defer></script>
   <script src="js/uploadImage.js" type="module" defer></script>
   <script src="js/validationForm.js" type="module" defer></script>
@@ -123,10 +124,16 @@
                 <!-- Добавление хэш-тегов и комментария к изображению -->
                 <fieldset class="img-upload__text text">
                   <div class="img-upload__field-wrapper">
-                    <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
+                    <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег" minlength="2"
+                           data-pristine-required-message="Обязательное поле"
+                           data-pristine-minlength-message="Минимальная длина 2 символа"
+                           data-pristine-maxlength-message="Максимальная длина 25 символов">
                   </div>
                   <div class="img-upload__field-wrapper">
-                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
+                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..."
+                              data-pristine-required-message="Обязательное поле"
+                              data-pristine-minlength-message="Минимальная длина 2 символа"
+                              data-pristine-maxlength-message="Максимальная длина 25 символов"></textarea>
                   </div>
                 </fieldset>
 
