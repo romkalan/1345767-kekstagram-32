@@ -7,11 +7,11 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <script src="js/main.js" type="module" defer></script>
+  <script src="js/createCommentList.js" type="module" defer></script>
   <script src="js/renderPictures.js" type="module" defer></script>
   <script src="js/renderFullScreenPicture.js" type="module" defer></script>
   <script src="js/data.js" type="module" defer></script>
   <script src="js/util.js" type="module" defer></script>
-  <script src="js/functions.js" defer></script>
   <title>Кекстаграм</title>
 </head>
 
@@ -161,14 +161,14 @@
           <!-- Комментарии к изображению -->
           <div class="social__comment-count"><span class="social__comment-shown-count">5</span> из <span class="social__comment-total-count">125</span> комментариев</div>
           <ul class="social__comments">
-            <li class="social__comment">
-              <img class="social__picture" src="img/avatar-4.svg" alt="Аватар комментатора фотографии" width="35" height="35">
-              <p class="social__text">Мега фото! Просто обалдеть. Как вам так удалось?</p>
-            </li>
-            <li class="social__comment">
-              <img class="social__picture" src="img/avatar-3.svg" alt="Аватар комментатора фотографии" width="35" height="35">
-               <p class="social__text">Да это фоташоп!!!!!!!!</p>
-            </li>
+<!--            <li class="social__comment">-->
+<!--              <img class="social__picture" src="img/avatar-4.svg" alt="Аватар комментатора фотографии" width="35" height="35">-->
+<!--              <p class="social__text">Мега фото! Просто обалдеть. Как вам так удалось?</p>-->
+<!--            </li>-->
+<!--            <li class="social__comment">-->
+<!--              <img class="social__picture" src="img/avatar-3.svg" alt="Аватар комментатора фотографии" width="35" height="35">-->
+<!--               <p class="social__text">Да это фоташоп!!!!!!!!</p>-->
+<!--            </li>-->
           </ul>
 
           <!-- Кнопка для загрузки новой порции комментариев -->
@@ -211,6 +211,17 @@
       </p>
     </a>
   </template>
+
+  <!-- Шаблон комментария пользователя -->
+  <template id="comment">
+    <li class="social__comment">
+      <img class="social__picture"
+        src=""
+        alt="Случайное имя"
+        width="35" height="35">
+      <p class="social__text">Я не знал, что написать пожтому вот вам этот текст</p>
+    </li>
+  </template>>
 
   <!-- Сообщение с ошибкой загрузки изображения -->
   <template id="error">

@@ -1,35 +1,36 @@
+import {isEscapeKey} from './util.js';
+import {renderComments} from './createCommentList.js';
+
 const fullScreenWindow = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
-const commentList = document.querySelectorAll('.social__comment');
 
-const hideCommentsCount = () => {
-  fullScreenWindow.querySelector('.social__comment-count').classList.add('hidden');
-  fullScreenWindow.querySelector('.comments-loader').classList.add('hidden');
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closePicture();
+  }
 };
 
-const renderComments = (commentsArray) => commentList.forEach((comment, index) => {
-  comment.querySelector('img').src = commentsArray[index].avatar;
-  comment.querySelector('p').textContent = commentsArray[index].message;
-});
+function closePicture() {
+  fullScreenWindow.classList.add('hidden');
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
 
-const loadDataForFullScreen = (picture, index) => {
+const loadDataForFullScreen = (picture) => {
   fullScreenWindow.querySelector('img').src = picture.url;
   fullScreenWindow.querySelector('.likes-count').textContent = picture.likes;
-  fullScreenWindow.querySelector('.social__comment-shown-count').textContent = 2;
+  fullScreenWindow.querySelector('.social__comment-shown-count').textContent = (picture.comments.length > 2) ? 2 : picture.comments.length;
   fullScreenWindow.querySelector('.social__comment-total-count').textContent = picture.comments.length;
   fullScreenWindow.querySelector('.social__caption').textContent = picture.description;
-  renderComments(picture.comments, index);
+  renderComments(picture.comments);
 };
 
-const openFullScreenPicture = (data, index) => {
-  loadDataForFullScreen(data[index], index);
-  hideCommentsCount();
+const openFullScreenPicture = (pictures, index) => {
+  loadDataForFullScreen(pictures[index]);
   fullScreenWindow.classList.remove('hidden');
   document.body.classList.add('.modal-open');
-
-  closeButton.addEventListener('click', () => {
-    fullScreenWindow.classList.add('hidden');
-  });
+  document.addEventListener('keydown', onDocumentKeydown);
+  closeButton.addEventListener('click', closePicture);
 };
 
 const openFullScreen = (pictures, data) => {

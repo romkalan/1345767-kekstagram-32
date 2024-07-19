@@ -17,4 +17,6 @@ const checkUniqValues = (a, b, array) => {
   return value;
 };
 
-export {getRandomInteger, getRandomArrayElement, checkUniqValues};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomInteger, getRandomArrayElement, checkUniqValues, isEscapeKey};
