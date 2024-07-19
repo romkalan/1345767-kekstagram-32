@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {submitForm} from "./validationForm";
 
 const imageUploadInput = document.querySelector('.img-upload__input');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -32,14 +33,15 @@ const openImageLoader = () => {
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', onDocumentKeydown);
     closeButton.addEventListener('click', closeUploader);
-    replaceImage();
+    // replaceImage();
   });
 };
 
 const submitPicture = () => {
-  submitButton.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-  });
+  // submitButton.addEventListener('submit', (evt) => {
+  //   evt.preventDefault();
+    submitForm();
+  // });
 };
 
 export {openImageLoader, submitPicture};
