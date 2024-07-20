@@ -1,12 +1,15 @@
 import {isEscapeKey} from './util.js';
-import {submitForm} from "./validationForm";
+import {isFormValid} from './validationForm.js';
 
 const imageUploadInput = document.querySelector('.img-upload__input');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const closeButton = document.querySelector('.img-upload__cancel');
-const submitButton = document.querySelector('.img-upload__submit');
+const imageForm = document.querySelector('#upload-select-image');
 
 const onDocumentKeydown = (evt) => {
+  // if (document.querySelector('input') === document.activeElement) {
+  //   evt.stopPropagation();
+  // }
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeUploader();
@@ -20,11 +23,11 @@ function closeUploader() {
   imageUploadInput.value = '';
 }
 
-const replaceImage = () => {
-  const imagePreview = document.querySelector('.img-upload__preview')
-    .querySelector('img');
-  imagePreview.src = imageUploadInput.value;
-};
+// const replaceImage = () => {
+//   const imagePreview = document.querySelector('.img-upload__preview')
+//     .querySelector('img');
+//   imagePreview.src = imageUploadInput.value;
+// };
 
 const openImageLoader = () => {
   imageUploadInput.addEventListener('change', (evt) => {
@@ -38,10 +41,10 @@ const openImageLoader = () => {
 };
 
 const submitPicture = () => {
-  // submitButton.addEventListener('submit', (evt) => {
-  //   evt.preventDefault();
-    submitForm();
-  // });
+  imageForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    isFormValid();
+  });
 };
 
 export {openImageLoader, submitPicture};
