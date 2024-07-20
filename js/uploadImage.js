@@ -7,10 +7,10 @@ const closeButton = document.querySelector('.img-upload__cancel');
 const imageForm = document.querySelector('#upload-select-image');
 
 const onDocumentKeydown = (evt) => {
-  // if (document.querySelector('input') === document.activeElement) {
-  //   evt.stopPropagation();
-  // }
-  if (isEscapeKey(evt)) {
+  if (document.querySelector('.text__hashtags') === document.activeElement
+    || document.querySelector('.text__description') === document.activeElement) {
+    evt.stopPropagation();
+  } else if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeUploader();
   }
