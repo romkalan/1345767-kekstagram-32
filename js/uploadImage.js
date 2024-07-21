@@ -1,5 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {isFormValid} from './validationForm.js';
+import {addSlider, switchSliderEffects} from './uploadEffects.js';
 
 const imageUploadInput = document.querySelector('.img-upload__input');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -36,6 +37,8 @@ const openImageLoader = () => {
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', onDocumentKeydown);
     closeButton.addEventListener('click', closeUploader);
+    addSlider();
+    switchSliderEffects();
     // replaceImage();
   });
 };
