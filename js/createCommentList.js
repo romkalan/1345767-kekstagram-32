@@ -14,7 +14,6 @@ const createComment = ({avatar, message, name}) => {
 
 const createCommentsFragment = (comments) => {
   const similarListFragment = document.createDocumentFragment();
-
   comments.forEach((comment) => {
     const commentElement = createComment(comment);
     similarListFragment.appendChild(commentElement);
