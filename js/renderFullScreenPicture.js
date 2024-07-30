@@ -68,4 +68,4 @@ const openFullScreen = (pictures, data) => {
 
 closeButton.addEventListener('click', closePicture);
 
-export {openFullScreen};
+export {openFullScreen, closePicture};
