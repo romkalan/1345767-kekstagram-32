@@ -30,4 +30,9 @@ const increaseScaleImage = () => {
   });
 };
 
-export {decreaseScaleImage, increaseScaleImage};
+const removeScaling = () => {
+  uploadPreviewImage.style.transform = 'scale(1)';
+  scaleControlInput.value = '100%';
+};
+
+export {decreaseScaleImage, increaseScaleImage, removeScaling};
