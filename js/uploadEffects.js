@@ -69,6 +69,12 @@ const removeEffects = () => {
   });
 };
 
+const removeFilters = () => {
+  sliderWrapper.classList.add('hidden');
+  previewImage.style.filter = '';
+  effectNone.checked = true;
+};
+
 const switchSliderEffects = () => {
   sliderWrapper.classList.add('hidden');
   changeEffectWith(effectChrome, 0, 1, 0.1, 'grayscale');
@@ -79,4 +85,4 @@ const switchSliderEffects = () => {
   removeEffects();
 };
 
-export {addSlider, switchSliderEffects};
+export {addSlider, switchSliderEffects, removeFilters};

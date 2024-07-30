@@ -1,8 +1,9 @@
 import {isEscapeKey} from './util.js';
 import {addValidation} from './validationForm.js';
-import {switchSliderEffects} from './uploadEffects.js';
+import {switchSliderEffects, removeFilters} from './uploadEffects.js';
 import {showAlertMessage} from './showAlert.js';
 import {sendData} from './api.js';
+import {removeScaling} from './scaleControl.js';
 
 const imageUploadInput = document.querySelector('.img-upload__input');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -19,7 +20,13 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const removeEffectsFromImage = () => {
+  removeFilters();
+  removeScaling();
+};
+
 function closeUploader() {
+  removeEffectsFromImage();
   imageUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -44,6 +51,34 @@ const openImageLoader = () => {
   });
 };
 
+const formIsSubmit = () => {
+  closeUploader();
+  const successMessageTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+  const successMessage = successMessageTemplate.cloneNode(true);
+  document.body.appendChild(successMessage);
+
+  const okButton = document.querySelector('.success__button');
+  okButton.addEventListener('click', () => {
+    successMessage.remove();
+  });
+};
+
+const formIsNotSubmit = () => {
+  closeUploader();
+  const failedMessageTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+  const failedMessage = failedMessageTemplate.cloneNode(true);
+  document.body.appendChild(failedMessage);
+
+  const okButton = document.querySelector('.error__button');
+  okButton.addEventListener('click', () => {
+    failedMessage.remove();
+  });
+};
+
 const submitPicture = (onSuccess) => {
   imageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -52,10 +87,10 @@ const submitPicture = (onSuccess) => {
       sendData(new FormData(evt.target))
         .then(onSuccess)
         .catch(() => {
-          showAlertMessage();
+          formIsNotSubmit();
         });
     }
   });
 };
 
-export {openImageLoader, submitPicture, closeUploader};
+export {openImageLoader, submitPicture, formIsSubmit};
