@@ -23,6 +23,10 @@ const normalizeTags = (tagString) => tagString
 
 const hasValidTags = (value) => normalizeTags(value).every((tag) => REGEXP.test(tag));
 const hasValidCount = (value) => normalizeTags(value).length <= MAX_HASHTAG_COUNT;
+const hasUniqueTags = (value) => {
+  const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
+  return lowerCaseTags.length === new Set(lowerCaseTags).size;
+};
 
 pristine.addValidator(
   hashtagInput,
@@ -41,13 +45,19 @@ pristine.addValidator(
 );
 
 pristine.addValidator(
+  hashtagInput,
+  hasUniqueTags,
+  ErrorText.NOT_UNIQUE,
+  3,
+  true,
+);
+
+pristine.addValidator(
   commentInput,
   () => commentInput.value.length <= 140,
   'Длина комментария не может быть больше 140 символов.'
 );
 
-const isFormValid = () => {
-  pristine.validate();
-};
+const addValidation = () => pristine.validate();
 
-export {isFormValid};
+export {addValidation};

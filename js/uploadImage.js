@@ -1,6 +1,8 @@
 import {isEscapeKey} from './util.js';
-import {isFormValid} from './validationForm.js';
-import {addSlider, switchSliderEffects} from './uploadEffects.js';
+import {addValidation} from './validationForm.js';
+import {switchSliderEffects} from './uploadEffects.js';
+import {showAlertMessage} from './showAlert.js';
+import {sendData} from './api.js';
 
 const imageUploadInput = document.querySelector('.img-upload__input');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -37,17 +39,23 @@ const openImageLoader = () => {
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', onDocumentKeydown);
     closeButton.addEventListener('click', closeUploader);
-    addSlider();
     switchSliderEffects();
     // replaceImage();
   });
 };
 
-const submitPicture = () => {
+const submitPicture = (onSuccess) => {
   imageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    isFormValid();
+    const isValid = addValidation();
+    if (isValid) {
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch(() => {
+          showAlertMessage();
+        });
+    }
   });
 };
 
-export {openImageLoader, submitPicture};
+export {openImageLoader, submitPicture, closeUploader};
