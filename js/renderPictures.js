@@ -27,4 +27,11 @@ const renderPictures = (pictures) => {
   pictureList.appendChild(createPicturesFragment(pictures));
 };
 
-export {renderPictures};
+const removeAllPictures = () => {
+  const pictures = pictureList.querySelectorAll('.picture');
+  pictures.forEach((picture) => {
+    pictureList.removeChild(picture);
+  });
+};
+
+export {renderPictures, removeAllPictures};
