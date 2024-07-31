@@ -5,6 +5,7 @@ import {increaseScaleImage, decreaseScaleImage} from './scaleControl.js';
 import {getData} from './api.js';
 import {showAlertMessage} from './showAlert.js';
 import {addSlider} from './uploadEffects.js';
+import {showDefaultPictureList, showRandomPictureList, showTopPictureList} from './imageListFilters.js';
 
 getData()
   .then((picturesLoaded) => {
@@ -15,6 +16,10 @@ getData()
   .catch(() => {
     showAlertMessage();
   });
+
+showDefaultPictureList();
+showRandomPictureList();
+showTopPictureList();
 
 addSlider();
 openImageLoader();

@@ -1,7 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {addValidation} from './validationForm.js';
 import {switchSliderEffects, removeFilters} from './uploadEffects.js';
-import {showAlertMessage} from './showAlert.js';
 import {sendData} from './api.js';
 import {removeScaling} from './scaleControl.js';
 
@@ -9,6 +8,12 @@ const imageUploadInput = document.querySelector('.img-upload__input');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const closeButton = document.querySelector('.img-upload__cancel');
 const imageForm = document.querySelector('#upload-select-image');
+const submitFormButton = document.querySelector('.img-upload__submit');
+
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Отправляю...'
+};
 
 const onDocumentKeydown = (evt) => {
   if (document.querySelector('.text__hashtags') === document.activeElement
@@ -26,12 +31,24 @@ const removeEffectsFromImage = () => {
 };
 
 function closeUploader() {
-  removeEffectsFromImage();
   imageUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   imageUploadInput.value = '';
 }
+
+const createSubmitMessage = (status) => {
+  const messageTemplate = document.querySelector(`#${status}`)
+    .content
+    .querySelector(`.${status}`);
+  const message = messageTemplate.cloneNode(true);
+  document.body.appendChild(message);
+};
+
+const removeSubmitMessage = (status) => {
+  const message = document.querySelector(`.${status}`);
+  message.remove();
+};
 
 // const replaceImage = () => {
 //   const imagePreview = document.querySelector('.img-upload__preview')
@@ -51,31 +68,32 @@ const openImageLoader = () => {
   });
 };
 
+const blockSubmitButton = () => {
+  submitFormButton.disabled = true;
+  submitFormButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitFormButton.disabled = false;
+  submitFormButton.textContent = SubmitButtonText.IDLE;
+};
+
 const formIsSubmit = () => {
   closeUploader();
-  const successMessageTemplate = document.querySelector('#success')
-    .content
-    .querySelector('.success');
-  const successMessage = successMessageTemplate.cloneNode(true);
-  document.body.appendChild(successMessage);
-
+  createSubmitMessage('success');
   const okButton = document.querySelector('.success__button');
   okButton.addEventListener('click', () => {
-    successMessage.remove();
+    removeSubmitMessage('success');
+    removeEffectsFromImage();
   });
 };
 
 const formIsNotSubmit = () => {
   closeUploader();
-  const failedMessageTemplate = document.querySelector('#error')
-    .content
-    .querySelector('.error');
-  const failedMessage = failedMessageTemplate.cloneNode(true);
-  document.body.appendChild(failedMessage);
-
+  createSubmitMessage('error');
   const okButton = document.querySelector('.error__button');
   okButton.addEventListener('click', () => {
-    failedMessage.remove();
+    removeSubmitMessage('error');
   });
 };
 
@@ -84,11 +102,13 @@ const submitPicture = (onSuccess) => {
     evt.preventDefault();
     const isValid = addValidation();
     if (isValid) {
+      blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
         .catch(() => {
           formIsNotSubmit();
-        });
+        })
+        .finally(unblockSubmitButton);
     }
   });
 };
