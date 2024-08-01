@@ -1,4 +1,4 @@
-import {renderPictures,removeAllPictures} from './renderPictures.js';
+import {renderPictures} from './renderPictures.js';
 import {getData} from './api.js';
 import {openFullScreen} from './renderFullScreenPicture.js';
 import {showAlertMessage} from './showAlert.js';
@@ -19,14 +19,43 @@ const compareLikesCount = (pictureA, pictureB) => {
   return likesBCount - likesACount;
 };
 
-const showDefaultPictureList = () => {
+const showDefaultPictureList = (callback) => {
   filterDefaultButton.addEventListener('click', () => {
     filterDefaultButton.classList.add('img-filters__button--active');
     filterRandomButton.classList.remove('img-filters__button--active');
     filterDiscussedButton.classList.remove('img-filters__button--active');
-    removeAllPictures();
     getData()
       .then((picturesLoaded) => {
+        callback();
+        const pictureList = document.querySelectorAll('.picture');
+        openFullScreen(pictureList, picturesLoaded);
+      })
+      .catch(() => {
+        showAlertMessage();
+      });
+  });
+};
+
+const getRandomPicturesArray = (picturesLoaded) => {
+  const picturesArray = [];
+  while (picturesArray.length < RANDOM_PICTURE_LIST_COUNT) {
+    const randomPicture = getRandomArrayElement(picturesLoaded);
+    if (!picturesArray.includes(randomPicture)) {
+      picturesArray.push(randomPicture);
+    }
+  }
+  return picturesArray;
+};
+
+const showRandomPictureList = (callback) => {
+  filterRandomButton.addEventListener('click', () => {
+    filterDefaultButton.classList.remove('img-filters__button--active');
+    filterDiscussedButton.classList.remove('img-filters__button--active');
+    filterRandomButton.classList.add('img-filters__button--active');
+    getData()
+      .then((picturesLoaded) => {
+        picturesLoaded = getRandomPicturesArray(picturesLoaded);
+        callback();
         renderPictures(picturesLoaded);
         const pictureList = document.querySelectorAll('.picture');
         openFullScreen(pictureList, picturesLoaded);
@@ -37,44 +66,16 @@ const showDefaultPictureList = () => {
   });
 };
 
-const showRandomPictureList = () => {
-  filterRandomButton.addEventListener('click', () => {
-    filterDefaultButton.classList.remove('img-filters__button--active');
-    filterDiscussedButton.classList.remove('img-filters__button--active');
-    filterRandomButton.classList.add('img-filters__button--active');
-    removeAllPictures();
-    getData()
-      .then((picturesLoaded) => {
-        const picturesArray = [];
-        while (picturesArray.length < RANDOM_PICTURE_LIST_COUNT) {
-          const randomPicture = getRandomArrayElement(picturesLoaded);
-          if (!picturesArray.includes(randomPicture)) {
-            picturesArray.push(randomPicture);
-          }
-        }
-        renderPictures(picturesArray);
-        const pictureList = document.querySelectorAll('.picture');
-        openFullScreen(pictureList, picturesArray);
-      })
-      .catch(() => {
-        showAlertMessage();
-      });
-  });
-};
-
-const showTopPictureList = () => {
+const showTopPictureList = (callback) => {
   filterDiscussedButton.addEventListener('click', () => {
     filterDefaultButton.classList.remove('img-filters__button--active');
     filterRandomButton.classList.remove('img-filters__button--active');
     filterDiscussedButton.classList.add('img-filters__button--active');
-    removeAllPictures();
     getData()
       .then((picturesLoaded) => {
-        const picturesArray = picturesLoaded
-          .sort(compareLikesCount);
-        renderPictures(picturesArray);
+        callback();
         const pictureList = document.querySelectorAll('.picture');
-        openFullScreen(pictureList, picturesArray);
+        openFullScreen(pictureList, picturesLoaded);
       })
       .catch(() => {
         showAlertMessage();
@@ -82,4 +83,4 @@ const showTopPictureList = () => {
   });
 };
 
-export {showDefaultPictureList, showRandomPictureList, showTopPictureList};
+export {showDefaultPictureList, showRandomPictureList, showTopPictureList, compareLikesCount, getRandomPicturesArray};
