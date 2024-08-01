@@ -23,15 +23,16 @@ const createPicturesFragment = (pictures) => {
   return similarListFragment;
 };
 
-const renderPictures = (pictures) => {
-  pictureList.appendChild(createPicturesFragment(pictures));
-};
-
 const removeAllPictures = () => {
   const pictures = pictureList.querySelectorAll('.picture');
   pictures.forEach((picture) => {
     pictureList.removeChild(picture);
   });
+};
+
+const renderPictures = (pictures) => {
+  removeAllPictures();
+  pictureList.appendChild(createPicturesFragment(pictures));
 };
 
 export {renderPictures, removeAllPictures};
