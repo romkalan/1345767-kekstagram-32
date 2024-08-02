@@ -1,6 +1,6 @@
 import {renderPictures} from './renderPictures.js';
 import {openFullScreen} from './renderFullScreenPicture.js';
-import {openImageLoader, submitPicture, formIsSubmit} from './uploadImage.js';
+import {openImageLoader, submitPicture, formIsSubmit} from './openImageUploader.js';
 import {increaseScaleImage, decreaseScaleImage} from './scaleControl.js';
 import {getData} from './api.js';
 import {showAlertMessage} from './showAlert.js';
