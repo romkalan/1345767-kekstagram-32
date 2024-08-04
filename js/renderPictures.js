@@ -1,7 +1,11 @@
+import {openFullScreen} from './renderFullScreenPicture.js';
+import {getRandomArrayElement} from './util.js';
+
 const pictureList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
+const RANDOM_PICTURE_LIST_COUNT = 10;
 
 const createPicture = ({url, description, likes, comments}) => {
   const pictureElement = pictureTemplate.cloneNode(true);
@@ -30,9 +34,29 @@ const removeAllPictures = () => {
   });
 };
 
+const getRandomPicturesArray = (picturesLoaded) => {
+  const picturesArray = [];
+  while (picturesArray.length < RANDOM_PICTURE_LIST_COUNT) {
+    const randomPicture = getRandomArrayElement(picturesLoaded);
+    if (!picturesArray.includes(randomPicture)) {
+      picturesArray.push(randomPicture);
+    }
+  }
+  return picturesArray;
+};
+
+const compareLikesCount = (pictureA, pictureB) => {
+  const likesACount = Number(pictureA.likes);
+  const likesBCount = Number(pictureB.likes);
+
+  return likesBCount - likesACount;
+};
+
 const renderPictures = (pictures) => {
   removeAllPictures();
   pictureList.appendChild(createPicturesFragment(pictures));
+  const picturesArray = document.querySelectorAll('.picture');
+  openFullScreen(picturesArray, pictures);
 };
 
-export {renderPictures, removeAllPictures};
+export {renderPictures, removeAllPictures, getRandomPicturesArray, compareLikesCount};
